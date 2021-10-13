@@ -31,7 +31,9 @@ class _TicTacGoState extends State<TicTacGo> {
   String playerName = "Player 1";
   Game game = Game();
   bool gameOver = false;
-  int plays = 0; // the number of plays left
+  int plays = 0; // the number of plays
+  String gameResult = "";
+  List<int> scoreBoard = [0,0,0,0,0,0,0,0]; // each score represents a possible winning combination, rows 3, cols 3, diagonals 2
 
   // initialize the game board
   @override
@@ -72,12 +74,21 @@ class _TicTacGoState extends State<TicTacGo> {
                 // todo: handle overflow error on screen auto-rotate
                 return InkWell(
                   onTap: gameOver ? null : (){
-                    // Check if te field is empty :-)
+                    // Check if te field is empty :-) Only allow the move is true
                     if(game.board![index]==""){
                       // Add new value to the board and refresh the screen.
                       // Also, toggle the player
                       setState(() {
                         game.board![index] = lastVal;
+                        plays++;
+                        gameOver = game.checkWinner(lastVal, index, scoreBoard, 3);
+                        if(gameOver){
+                          if(lastVal == "x"){
+                            gameResult = "Player 1 wins!";
+                          }else{
+                            gameResult = "Player 2 wins!";
+                          }
+                        }
                         if (lastVal == "X"){
                           lastVal = "O";
                           playerName = "Player 2";
@@ -109,13 +120,26 @@ class _TicTacGoState extends State<TicTacGo> {
               }),
             ),
           ),
+          SizedBox(height: 10.0),
+          Text(
+            gameResult,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 50.0,
+            ),
+          ),
+          SizedBox(height: 10.0),
           ElevatedButton.icon(
             onPressed: (){
               setState(() {
-                // erase the game board
+                // erase the game board, reset scores
                 game.board = Game.initGameBoard();
                 lastVal = "X";
                 playerName = "Player 1";
+                gameOver = false;
+                plays=0;
+                gameResult="";
+                scoreBoard = [0,0,0,0,0,0,0,0];
               });
             },
             icon: Icon(Icons.replay),
