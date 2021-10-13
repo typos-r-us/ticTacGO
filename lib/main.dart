@@ -31,6 +31,7 @@ class _TicTacGoState extends State<TicTacGo> {
   String playerName = "Player 1";
   Game game = Game();
   bool gameOver = false;
+  int plays = 0; // the number of plays left
 
   // initialize the game board
   @override
@@ -79,8 +80,10 @@ class _TicTacGoState extends State<TicTacGo> {
                         game.board![index] = lastVal;
                         if (lastVal == "X"){
                           lastVal = "O";
+                          playerName = "Player 2";
                         }else {
                           lastVal = "X";
+                          playerName = "Player 1";
                         }
                       });
                     }
@@ -106,6 +109,21 @@ class _TicTacGoState extends State<TicTacGo> {
               }),
             ),
           ),
+          ElevatedButton.icon(
+            onPressed: (){
+              setState(() {
+                // erase the game board
+                game.board = Game.initGameBoard();
+                lastVal = "X";
+                playerName = "Player 1";
+              });
+            },
+            icon: Icon(Icons.replay),
+            label: Text("Replay"),
+            // style: ButtonStyle(
+            //   backgroundColor: Color(MainColor.accentColor),
+            // ),
+          )
         ],
       ),
     );
