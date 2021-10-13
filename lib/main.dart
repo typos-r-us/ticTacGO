@@ -48,112 +48,115 @@ class _TicTacGoState extends State<TicTacGo> {
   Widget build(BuildContext context) {
     // get the device size, set board dimensions
     double boardWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: MainColor.primaryColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "Current Player: ${playerName}".toUpperCase(),
-            style: const TextStyle(
-              color: Colors.white, fontSize: 38,
+    return SafeArea(
+      minimum: const EdgeInsets.all(16.0),
+      child: Scaffold(
+        backgroundColor: MainColor.primaryColor,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Current Player: $playerName".toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white, fontSize: 30,
+              ),
             ),
-          ),
-          const SizedBox(height: 20.0,),
-          // Add the game board
-          Container(
-            width: boardWidth,
-            height: boardWidth,
-            child: GridView.count(
-              crossAxisCount: Game.boardLength ~/ 3, // using ~/ allows to return INT only
-              padding: const EdgeInsets.all(16.0),
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-              children: List.generate(Game.boardLength, (index) {
-                // todo: handle overflow error on screen auto-rotate
-                return InkWell(
-                  onTap: gameOver ? null : (){
-                    // Check if te field is empty :-) Only allow the move is true
-                    if(game.board![index]==""){
-                      // Add new value to the board and refresh the screen.
-                      // Also, toggle the player
-                      setState(() {
-                        game.board![index] = lastVal;
-                        plays++;
-                        gameOver = game.checkWinner(lastVal, index, scoreBoard, 3);
-                        if(gameOver){
-                          if(lastVal == "X"){
-                            gameResult = "Player 1 wins!";
+            const SizedBox(height: 20.0,),
+            // Add the game board
+            Container(
+              width: boardWidth,
+              height: boardWidth,
+              child: GridView.count(
+                crossAxisCount: Game.boardLength ~/ 3, // using ~/ allows to return INT only
+                padding: const EdgeInsets.all(16.0),
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+                children: List.generate(Game.boardLength, (index) {
+                  // todo: handle overflow error on screen auto-rotate
+                  return InkWell(
+                    onTap: gameOver ? null : (){
+                      // Check if te field is empty :-) Only allow the move is true
+                      if(game.board![index]==""){
+                        // Add new value to the board and refresh the screen.
+                        // Also, toggle the player
+                        setState(() {
+                          game.board![index] = lastVal;
+                          plays++;
+                          gameOver = game.checkWinner(lastVal, index, scoreBoard, 3);
+                          if(gameOver){
+                            if(lastVal == "X"){
+                              gameResult = "Player 1 wins!";
+                            }else{
+                              gameResult = "Player 2 wins!";
+                            }
                           }else{
-                            gameResult = "Player 2 wins!";
+                            if(!gameOver && plays==9){
+                              gameResult = "It's a Draw!";
+                              gameOver = true;
+                            }
                           }
-                        }else{
-                          if(!gameOver && plays==9){
-                            gameResult = "It's a Draw!";
-                            gameOver = true;
+                          if (lastVal == "X"){
+                            lastVal = "O";
+                            playerName = "Player 2";
+                          }else {
+                            lastVal = "X";
+                            playerName = "Player 1";
                           }
-                        }
-                        if (lastVal == "X"){
-                          lastVal = "O";
-                          playerName = "Player 2";
-                        }else {
-                          lastVal = "X";
-                          playerName = "Player 1";
-                        }
-                      });
-                    }
-                  },
-                  child: Container(
-                    height: Game.blocSize,
-                    width: Game.blocSize,
-                    decoration: BoxDecoration(
-                      color: MainColor.secondaryColor,
-                      borderRadius: BorderRadius.circular(5.0)
-                    ),
-                    child: Center(
-                      child: Text(
-                        game.board![index],
-                        style: TextStyle(
-                          color: game.board![index] == "X" ? Colors.blue : Colors.pink,
-                          fontSize: 50.0
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: Game.blocSize,
+                      width: Game.blocSize,
+                      decoration: BoxDecoration(
+                        color: MainColor.secondaryColor,
+                        borderRadius: BorderRadius.circular(5.0)
+                      ),
+                      child: Center(
+                        child: Text(
+                          game.board![index],
+                          style: TextStyle(
+                            color: game.board![index] == "X" ? Colors.blue : Colors.pink,
+                            fontSize: 50.0
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+              ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Text(
-            gameResult,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 50.0,
+            const SizedBox(height: 5.0),
+            Text(
+              gameResult,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 30.0,
+              ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          ElevatedButton.icon(
-            onPressed: (){
-              setState(() {
-                // erase the game board, reset scores
-                game.board = Game.initGameBoard();
-                lastVal = "X";
-                playerName = "Player 1";
-                gameOver = false;
-                plays=0;
-                gameResult="";
-                scoreBoard = [0,0,0,0,0,0,0,0];
-              });
-            },
-            icon: const Icon(Icons.replay),
-            label: const Text("Replay"),
-            // style: ButtonStyle(
-            //   backgroundColor: Color(MainColor.accentColor),
-            // ),
-          )
-        ],
+            const SizedBox(height: 5.0),
+            ElevatedButton.icon(
+              onPressed: (){
+                setState(() {
+                  // erase the game board, reset scores
+                  game.board = Game.initGameBoard();
+                  lastVal = "X";
+                  playerName = "Player 1";
+                  gameOver = false;
+                  plays=0;
+                  gameResult="";
+                  scoreBoard = [0,0,0,0,0,0,0,0];
+                });
+              },
+              icon: const Icon(Icons.replay),
+              label: const Text("Replay"),
+              // style: ButtonStyle(
+              //   backgroundColor: Color(MainColor.accentColor),
+              // ),
+            )
+          ],
+        ),
       ),
     );
   }
