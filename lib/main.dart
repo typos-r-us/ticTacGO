@@ -88,6 +88,11 @@ class _TicTacGoState extends State<TicTacGo> {
                           }else{
                             gameResult = "Player 2 wins!";
                           }
+                        }else{
+                          if(!gameOver && plays==9){
+                            gameResult = "It's a Draw!";
+                            gameOver = true;
+                          }
                         }
                         if (lastVal == "X"){
                           lastVal = "O";
