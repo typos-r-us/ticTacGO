@@ -4,7 +4,7 @@ A TicTacToe game in Flutter
 
 ## Brief Notes
 
-This app is is written in dart and flutter. It will run on android devices.
+This app is written in dart and flutter. It will run on android devices.
 
 Feel free to clone, fork and improve as you wish.
 
