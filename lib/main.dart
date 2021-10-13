@@ -83,7 +83,7 @@ class _TicTacGoState extends State<TicTacGo> {
                         plays++;
                         gameOver = game.checkWinner(lastVal, index, scoreBoard, 3);
                         if(gameOver){
-                          if(lastVal == "x"){
+                          if(lastVal == "X"){
                             gameResult = "Player 1 wins!";
                           }else{
                             gameResult = "Player 2 wins!";
