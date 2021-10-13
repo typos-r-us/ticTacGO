@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: TicTacGo(),
     );
   }
@@ -41,7 +41,7 @@ class _TicTacGoState extends State<TicTacGo> {
     // TODO: implement initState
     super.initState();
     game.board = Game.initGameBoard();
-    print(game.board); // for debug. prints the list to console
+    //print(game.board); // for debug. prints the list to console
   }
 
   @override
@@ -56,18 +56,18 @@ class _TicTacGoState extends State<TicTacGo> {
         children: [
           Text(
             "Current Player: ${playerName}".toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white, fontSize: 38,
             ),
           ),
-          SizedBox(height: 20.0,),
+          const SizedBox(height: 20.0,),
           // Add the game board
           Container(
             width: boardWidth,
             height: boardWidth,
             child: GridView.count(
               crossAxisCount: Game.boardLength ~/ 3, // using ~/ allows to return INT only
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
               children: List.generate(Game.boardLength, (index) {
@@ -120,15 +120,15 @@ class _TicTacGoState extends State<TicTacGo> {
               }),
             ),
           ),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           Text(
             gameResult,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 50.0,
             ),
           ),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           ElevatedButton.icon(
             onPressed: (){
               setState(() {
@@ -142,8 +142,8 @@ class _TicTacGoState extends State<TicTacGo> {
                 scoreBoard = [0,0,0,0,0,0,0,0];
               });
             },
-            icon: Icon(Icons.replay),
-            label: Text("Replay"),
+            icon: const Icon(Icons.replay),
+            label: const Text("Replay"),
             // style: ButtonStyle(
             //   backgroundColor: Color(MainColor.accentColor),
             // ),

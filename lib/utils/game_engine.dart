@@ -5,8 +5,8 @@ class Player{
 }
 
 class Game{
-  static final boardLength = 9; // this is our 3*3 game board
-  static final blocSize = 100.0;
+  static const boardLength = 9; // this is our 3*3 game board
+  static const blocSize = 100.0;
   
   // generate the empty board
   List<String>? board;
