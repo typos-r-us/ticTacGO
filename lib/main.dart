@@ -27,8 +27,10 @@ class TicTacGo extends StatefulWidget {
 
 class _TicTacGoState extends State<TicTacGo> {
   // Add the variables
-  String lastVal = "Player 1";
+  String lastVal = "X";
+  String playerName = "Player 1";
   Game game = Game();
+  bool gameOver = false;
 
   // initialize the game board
   @override
@@ -50,7 +52,7 @@ class _TicTacGoState extends State<TicTacGo> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Current Player: ${lastVal}".toUpperCase(),
+            "Current Player: ${playerName}".toUpperCase(),
             style: TextStyle(
               color: Colors.white, fontSize: 38,
             ),
@@ -66,12 +68,39 @@ class _TicTacGoState extends State<TicTacGo> {
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
               children: List.generate(Game.boardLength, (index) {
-                return Container(
-                  height: Game.blocSize,
-                  width: Game.blocSize,
-                  decoration: BoxDecoration(
-                    color: MainColor.secondaryColor,
-                    borderRadius: BorderRadius.circular(5.0)
+                // todo: handle overflow error on screen auto-rotate
+                return InkWell(
+                  onTap: gameOver ? null : (){
+                    // Check if te field is empty :-)
+                    if(game.board![index]==""){
+                      // Add new value to the board and refresh the screen.
+                      // Also, toggle the player
+                      setState(() {
+                        game.board![index] = lastVal;
+                        if (lastVal == "X"){
+                          lastVal = "O";
+                        }else {
+                          lastVal = "X";
+                        }
+                      });
+                    }
+                  },
+                  child: Container(
+                    height: Game.blocSize,
+                    width: Game.blocSize,
+                    decoration: BoxDecoration(
+                      color: MainColor.secondaryColor,
+                      borderRadius: BorderRadius.circular(5.0)
+                    ),
+                    child: Center(
+                      child: Text(
+                        game.board![index],
+                        style: TextStyle(
+                          color: game.board![index] == "X" ? Colors.blue : Colors.pink,
+                          fontSize: 50.0
+                        ),
+                      ),
+                    ),
                   ),
                 );
               }),
