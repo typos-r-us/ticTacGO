@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kennethmwenda.tic_tac_go">
    <application
-        android:label="tic_tac_go"
+        android:label="TicTacGO!"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

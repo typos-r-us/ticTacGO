@@ -139,7 +139,7 @@ class _TicTacGoState extends State<TicTacGo> {
             ElevatedButton.icon(
               onPressed: (){
                 setState(() {
-                  // erase the game board, reset scores
+                  // erase the game board, reset all variables
                   game.board = Game.initGameBoard();
                   lastVal = "X";
                   playerName = "Player 1";
